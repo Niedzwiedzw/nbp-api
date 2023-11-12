@@ -65,7 +65,7 @@ impl std::default::Default for RatesRequest {
         Self {
             table_name: "A".into(),
             currency_code: "EUR".into(),
-            date: chrono::Local::now().date_naive(),
+            date: chrono::Local::now().date_naive() - chrono::Duration::days(1),
         }
     }
 }
@@ -114,5 +114,6 @@ impl NbpApiClient {
                     })
             })
             .await
+            .wrap_err("fetching rates")
     }
 }

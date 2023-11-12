@@ -933,7 +933,7 @@ dependencies = [
 
 [[package]]
 name = "nbp-api"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "eyre",
@@ -948,7 +948,7 @@ dependencies = [
 
 [[package]]
 name = "nbp-cli"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "clap",

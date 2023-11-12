@@ -9,8 +9,6 @@ use tracing::{debug, error, info, instrument, trace, warn};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
-    #[arg(long, short, default_value_t = chrono::Local::now().date_naive())]
-    date: chrono::NaiveDate,
     #[command(subcommand)]
     command: Command,
 }
@@ -19,8 +17,15 @@ struct Cli {
 enum Command {
     /// get the exchange rate
     ExchangeRate {
+        /// value to be converted (defaults to 1.0)
         #[arg(long, short, default_value_t = rust_decimal::Decimal::from_usize(1).expect("valid decimal"))]
         value: rust_decimal::Decimal,
+        /// source currency
+        #[arg(long, short, default_value_t = RatesRequest::default().currency_code)]
+        currency_code: String,
+        /// defaults to yesterday
+        #[arg(long, short, default_value_t = RatesRequest::default().date)]
+        date: chrono::NaiveDate,
     },
 }
 
@@ -37,21 +42,26 @@ fn setup_logging() {
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     setup_logging();
-    let Cli { date, command } = Cli::parse();
+    let Cli { command } = Cli::parse();
     match command {
-        Command::ExchangeRate { value } => {
+        Command::ExchangeRate {
+            value,
+            currency_code,
+            date,
+        } => {
             let client = NbpApiClient::new()?;
+            let request = RatesRequest {
+                date,
+                currency_code,
+                ..RatesRequest::default()
+            };
+            tracing::info!(?request, "fetching data");
             let RatesResponse {
                 table: _,
                 currency: _,
                 code: _,
                 rates,
-            } = client
-                .rates(RatesRequest {
-                    date,
-                    ..RatesRequest::default()
-                })
-                .await?;
+            } = client.rates(request).await?;
             let &RatesRateEntry {
                 no: _,
                 effective_date: _,
