@@ -1,0 +1,19 @@
+[package]
+name = "kalkulator-walutowy-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+kalkulator-walutowy-api.workspace = true
+chrono = { version = "0.4.31", features = ["serde"] }
+clap.workspace = true
+color-eyre.workspace = true
+eyre.workspace = true
+reqwest.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+rust_decimal = { version = "1.32.0", features = ["serde-float"] }
