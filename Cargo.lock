@@ -826,37 +826,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "kalkulator-walutowy-api"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "eyre",
- "futures-util",
- "nonempty",
- "reqwest",
- "rust_decimal",
- "serde",
- "serde_json",
- "tracing",
-]
-
-[[package]]
-name = "kalkulator-walutowy-cli"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "clap",
- "color-eyre",
- "eyre",
- "kalkulator-walutowy-api",
- "reqwest",
- "rust_decimal",
- "tokio",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -960,6 +929,37 @@ dependencies = [
  "libc",
  "wasi",
  "windows-sys",
+]
+
+[[package]]
+name = "nbp-api"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "eyre",
+ "futures-util",
+ "nonempty",
+ "reqwest",
+ "rust_decimal",
+ "serde",
+ "serde_json",
+ "tracing",
+]
+
+[[package]]
+name = "nbp-cli"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "clap",
+ "color-eyre",
+ "eyre",
+ "nbp-api",
+ "reqwest",
+ "rust_decimal",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

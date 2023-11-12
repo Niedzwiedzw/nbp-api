@@ -1,7 +1,7 @@
 use clap::Parser;
 #[allow(unused_imports)]
 use eyre::{Result, WrapErr};
-use kalkulator_walutowy_api::{NbpApiClient, RatesRateEntry, RatesRequest, RatesResponse};
+use nbp_api::{NbpApiClient, RatesRateEntry, RatesRequest, RatesResponse};
 use rust_decimal::prelude::FromPrimitive;
 #[allow(unused_imports)]
 use tracing::{debug, error, info, instrument, trace, warn};
@@ -42,9 +42,9 @@ async fn main() -> Result<()> {
         Command::ExchangeRate { value } => {
             let client = NbpApiClient::new()?;
             let RatesResponse {
-                table,
-                currency,
-                code,
+                table: _,
+                currency: _,
+                code: _,
                 rates,
             } = client
                 .rates(RatesRequest {
@@ -53,8 +53,8 @@ async fn main() -> Result<()> {
                 })
                 .await?;
             let &RatesRateEntry {
-                no,
-                effective_date,
+                no: _,
+                effective_date: _,
                 mid,
             } = &rates.first();
             let result = mid * value;

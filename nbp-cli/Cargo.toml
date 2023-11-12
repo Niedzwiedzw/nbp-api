@@ -1,5 +1,5 @@
 [package]
-name = "kalkulator-walutowy-cli"
+name = "nbp-cli"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -7,7 +7,7 @@ license.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-kalkulator-walutowy-api.workspace = true
+nbp-api.workspace = true
 chrono = { version = "0.4.31", features = ["serde"] }
 clap.workspace = true
 color-eyre.workspace = true

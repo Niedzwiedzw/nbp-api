@@ -1,5 +1,5 @@
 [workspace]
-members = ["kalkulator-walutowy-api", "kalkulator-walutowy-cli"]
+members = ["nbp-api", "nbp-cli"]
 resolver = "2"
 
 [workspace.package]
@@ -10,7 +10,7 @@ license = "MIT"
 
 [workspace.dependencies]
 # internal
-kalkulator-walutowy-api.path = "kalkulator-walutowy-api"
+nbp-api.path = "nbp-api"
 
 # external
 clap = { version = "4.4.8", features = ["derive", "cargo", "env"] }

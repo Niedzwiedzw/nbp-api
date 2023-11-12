@@ -17,7 +17,7 @@ impl NbpApiClient {
     pub fn new() -> Result<Self> {
         ClientBuilder::new()
             .build()
-            .wrap_err("building kalkulator walutowy client")
+            .wrap_err("building nbp client")
             .map(|client| Self { client })
     }
 }
