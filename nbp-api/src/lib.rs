@@ -52,7 +52,7 @@ pub struct RatesRateEntry {
 }
 
 /// ❯ curl http://api.nbp.pl/api/exchangerates/rates/A/EUR/2023-11-10
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct RatesRequest {
     pub table_name: String,
@@ -65,7 +65,7 @@ impl std::default::Default for RatesRequest {
         Self {
             table_name: "A".into(),
             currency_code: "EUR".into(),
-            date: chrono::Local::now().date_naive() - chrono::Duration::days(1),
+            date: chrono::Local::now().date_naive(),
         }
     }
 }
@@ -86,7 +86,7 @@ where
 }
 
 impl NbpApiClient {
-    #[instrument(level = "debug", ret, err)]
+    #[instrument(level = "debug", ret)]
     pub async fn rates(
         &self,
         RatesRequest {
