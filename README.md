@@ -12,4 +12,3 @@ cargo install --git https://github.com/Niedzwiedzw/nbp-api --locked --bin nbp-cl
 ```bash
 nbp-cli --help
 ```
-
