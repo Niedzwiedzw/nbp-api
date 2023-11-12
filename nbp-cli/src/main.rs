@@ -62,10 +62,4 @@ async fn main() -> Result<()> {
             Ok(())
         }
     }
-    // info!("it works");
-    // client.rates(RatesRequest {
-    //     table_name: todo!(),
-    //     currency_code: todo!(),
-    //     date: todo!(),
-    // });
 }
