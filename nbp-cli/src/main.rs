@@ -57,10 +57,7 @@ fn setup_logging() {
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     setup_logging();
-    let Cli {
-        command,
-        output_mode,
-    } = Cli::parse();
+    let Cli { command, output_mode } = Cli::parse();
     match command {
         Command::ExchangeRate {
             value,
@@ -75,33 +72,22 @@ async fn main() -> Result<()> {
                 ..RatesRequest::default()
             };
             info!(?base_request, "performing request");
-            let request_for_date = move |date| RatesRequest {
-                date,
-                ..base_request.clone()
-            };
-            let RatesResponse {
-                table,
-                currency,
-                code,
-                rates,
-            } = {
+            let request_for_date = move |date| RatesRequest { date, ..base_request.clone() };
+            let RatesResponse { table, currency, code, rates } = {
                 let dates = (0..max_day_before_checks)
                     .map(|offset| date - chrono::Duration::days(offset))
                     .collect::<Vec<_>>();
-                let mut stream = futures::stream::iter(dates.clone())
+                let stream = futures::stream::iter(dates.clone())
                     .map(request_for_date)
                     .then(|rates_request| client.rates(rates_request))
                     .filter_map(|res| ready(res.ok()));
                 let mut stream = pin!(stream);
-                stream.next().await.ok_or_else(|| {
-                    eyre::eyre!("could not find any entry in following dates: {dates:?}")
-                })?
+                stream
+                    .next()
+                    .await
+                    .ok_or_else(|| eyre::eyre!("could not find any entry in following dates: {dates:?}"))?
             };
-            let &RatesRateEntry {
-                no,
-                effective_date,
-                mid,
-            } = &rates.first();
+            let &RatesRateEntry { no, effective_date, mid } = &rates.first();
             let result = mid * value;
             info!(%table, %currency, %code, %no, %effective_date, %mid, "found rating for specified parameters");
             match output_mode {

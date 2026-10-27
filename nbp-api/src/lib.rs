@@ -97,21 +97,14 @@ impl NbpApiClient {
     ) -> Result<RatesResponse> {
         let date = date.format("%Y-%m-%d");
         self.client
-            .get(format!(
-                "http://api.nbp.pl/api/exchangerates/rates/{table_name}/{currency_code}/{date}"
-            ))
+            .get(format!("http://api.nbp.pl/api/exchangerates/rates/{table_name}/{currency_code}/{date}"))
             .send()
             .map_err(|e| e.wrap_err("sending request"))
             .and_then(|response| {
                 response
                     .text()
                     .map_err(|e| e.wrap_err("reading response text"))
-                    .and_then(|text| {
-                        std::future::ready(
-                            serde_json::from_str(&text)
-                                .wrap_err_with(|| format!("bad response: {text}")),
-                        )
-                    })
+                    .and_then(|text| std::future::ready(serde_json::from_str(&text).wrap_err_with(|| format!("bad response: {text}"))))
             })
             .await
             .wrap_err("fetching rates")
