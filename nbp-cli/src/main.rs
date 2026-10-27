@@ -47,7 +47,7 @@ enum Command {
 fn setup_logging() {
     use tracing_subscriber::{prelude::*, EnvFilter};
     let subscriber = tracing_subscriber::registry()
-        .with(EnvFilter::try_from_default_env().unwrap_or(EnvFilter::try_from("info").unwrap()))
+        .with(EnvFilter::try_from_default_env().unwrap_or(EnvFilter::from("info")))
         .with(tracing_subscriber::fmt::Layer::new().with_writer(std::io::stderr));
     if let Err(message) = tracing::subscriber::set_global_default(subscriber) {
         eprintln!("logging setup failed: {message:?}");
